@@ -1,35 +1,70 @@
 import { useState, useCallback } from 'react'
-import { recipes } from '../data/recipes'
 import type { Recipe } from '../types/recipe'
 import { getFromStorage, setToStorage } from '../utils/storage'
 
-const STORAGE_KEY = 'food-tinder-favorites'
+const STORAGE_KEY = 'tastry-favorites'
+const COLLECTIONS_KEY = 'tastry-collections'
+
+export interface Collection {
+  name: string
+  recipeIds: string[]
+}
 
 export function useFavorites() {
-  const [favoriteIds, setFavoriteIds] = useState<string[]>(() =>
-    getFromStorage<string[]>(STORAGE_KEY, [])
+  const [favorites, setFavorites] = useState<Recipe[]>(() =>
+    getFromStorage<Recipe[]>(STORAGE_KEY, [])
+  )
+  const [collections, setCollections] = useState<Collection[]>(() =>
+    getFromStorage<Collection[]>(COLLECTIONS_KEY, [{ name: 'Favoriti', recipeIds: [] }])
   )
 
-  const favorites: Recipe[] = favoriteIds
-    .map((id) => recipes.find((r) => r.id === id))
-    .filter((r): r is Recipe => r !== undefined)
-
-  const addFavorite = useCallback((id: string) => {
-    setFavoriteIds((prev) => {
-      if (prev.includes(id)) return prev
-      const next = [...prev, id]
+  const addFavorite = useCallback((recipe: Recipe, collectionName = 'Favoriti') => {
+    setFavorites((prev) => {
+      if (prev.some((r) => r.id === recipe.id)) return prev
+      const next = [...prev, recipe]
       setToStorage(STORAGE_KEY, next)
       return next
+    })
+    setCollections((prev) => {
+      const updated = prev.map((c) =>
+        c.name === collectionName && !c.recipeIds.includes(recipe.id)
+          ? { ...c, recipeIds: [...c.recipeIds, recipe.id] }
+          : c
+      )
+      setToStorage(COLLECTIONS_KEY, updated)
+      return updated
     })
   }, [])
 
   const removeFavorite = useCallback((id: string) => {
-    setFavoriteIds((prev) => {
-      const next = prev.filter((fid) => fid !== id)
+    setFavorites((prev) => {
+      const next = prev.filter((r) => r.id !== id)
       setToStorage(STORAGE_KEY, next)
+      return next
+    })
+    setCollections((prev) => {
+      const updated = prev.map((c) => ({
+        ...c,
+        recipeIds: c.recipeIds.filter((rid) => rid !== id),
+      }))
+      setToStorage(COLLECTIONS_KEY, updated)
+      return updated
+    })
+  }, [])
+
+  const addCollection = useCallback((name: string) => {
+    setCollections((prev) => {
+      if (prev.some((c) => c.name === name)) return prev
+      const next = [...prev, { name, recipeIds: [] }]
+      setToStorage(COLLECTIONS_KEY, next)
       return next
     })
   }, [])
 
-  return { favorites, favoriteIds, addFavorite, removeFavorite }
+  const isFavorite = useCallback(
+    (id: string) => favorites.some((r) => r.id === id),
+    [favorites]
+  )
+
+  return { favorites, collections, addFavorite, removeFavorite, addCollection, isFavorite }
 }

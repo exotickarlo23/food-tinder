@@ -1,14 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-brand-50: #FFF8F0;
-  --color-brand-100: #FFE8CC;
-  --color-brand-200: #FFD199;
-  --color-brand-500: #FF8C42;
-  --color-brand-600: #E67635;
-  --color-brand-700: #CC6128;
-  --color-nope: #FF6B6B;
-  --color-like: #4ECB71;
+  --color-coral: #E8614D;
+  --color-coral-light: #FFF0EE;
+  --color-save: #3CB371;
+  --color-nope: #E8614D;
+  --color-like: #3CB371;
+  --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
 }
 
 * {
@@ -23,8 +22,8 @@ html, body, #root {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #FFF8F0;
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  background-color: #FAFAFA;
   color: #333;
   -webkit-tap-highlight-color: transparent;
   -webkit-user-select: none;
@@ -33,4 +32,13 @@ body {
 
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Hide scrollbar for category pills */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

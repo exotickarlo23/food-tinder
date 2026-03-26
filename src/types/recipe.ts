@@ -1,9 +1,11 @@
 export interface Recipe {
   id: string
   name: string
-  description: string
   image: string
   category: string
-  prepTime: string
-  difficulty: 'Easy' | 'Medium' | 'Hard'
+  area: string
+  instructions: string
+  ingredients: { ingredient: string; measure: string }[]
+  source?: string
+  youtube?: string
 }

@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import SwipePage from './pages/SwipePage'
-import FavoritesPage from './pages/FavoritesPage'
+import SearchPage from './pages/SearchPage'
+import SavedPage from './pages/SavedPage'
 
 export default function App() {
   return (
@@ -9,7 +10,8 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<SwipePage />} />
-          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/saved" element={<SavedPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
