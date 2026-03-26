@@ -7,7 +7,7 @@ import EmptyState from '../components/EmptyState'
 
 export default function SavedPage() {
   const { favorites, collections, removeFavorite, addCollection } = useFavorites()
-  const [activeCollection, setActiveCollection] = useState('Favoriti')
+  const [activeCollection, setActiveCollection] = useState('Favorites')
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null)
   const [showNewCollection, setShowNewCollection] = useState(false)
   const [newName, setNewName] = useState('')
@@ -51,8 +51,8 @@ export default function SavedPage() {
   return (
     <div className="flex flex-col h-full">
       <header className="pt-4 pb-2 px-4">
-        <h1 className="text-2xl font-extrabold tracking-tight text-gray-800">Spremljeno</h1>
-        <p className="text-sm text-gray-400 mt-0.5">{favorites.length} recepata</p>
+        <h1 className="text-2xl font-extrabold tracking-tight text-gray-800">Saved</h1>
+        <p className="text-sm text-gray-400 mt-0.5">{favorites.length} recipes</p>
       </header>
 
       {/* Collection pills */}
@@ -72,7 +72,7 @@ export default function SavedPage() {
           onClick={() => setShowNewCollection(true)}
           className="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-gray-100 text-gray-400 border border-dashed border-gray-300"
         >
-          + Nova
+          + New
         </button>
       </div>
 
@@ -83,7 +83,7 @@ export default function SavedPage() {
             type="text"
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
-            placeholder="Ime kolekcije..."
+            placeholder="Collection name..."
             className="flex-1 px-3 py-2 bg-gray-100 rounded-lg text-sm outline-none focus:ring-2 focus:ring-coral/30"
             autoFocus
             onKeyDown={(e) => e.key === 'Enter' && handleCreateCollection()}
@@ -92,7 +92,7 @@ export default function SavedPage() {
             onClick={handleCreateCollection}
             className="px-3 py-2 bg-coral text-white rounded-lg text-sm font-semibold"
           >
-            Dodaj
+            Add
           </button>
           <button
             onClick={() => { setShowNewCollection(false); setNewName('') }}
@@ -108,8 +108,8 @@ export default function SavedPage() {
         {filteredRecipes.length === 0 ? (
           <EmptyState
             emoji="💔"
-            title="Prazna kolekcija"
-            subtitle="Swipaj desno na recepte koji ti se sviđaju!"
+            title="Empty collection"
+            subtitle="Swipe right on recipes you like!"
           />
         ) : (
           <div className="grid grid-cols-2 gap-3">

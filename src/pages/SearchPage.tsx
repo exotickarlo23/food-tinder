@@ -51,7 +51,7 @@ export default function SearchPage() {
   return (
     <div className="flex flex-col h-full">
       <header className="pt-4 pb-2 px-4">
-        <h1 className="text-2xl font-extrabold tracking-tight text-gray-800 mb-3">Traži</h1>
+        <h1 className="text-2xl font-extrabold tracking-tight text-gray-800 mb-3">Search</h1>
         <div className="relative">
           <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <circle cx="11" cy="11" r="8" />
@@ -61,7 +61,7 @@ export default function SearchPage() {
             type="text"
             value={query}
             onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Pretraži jelo po imenu..."
+            placeholder="Search by name..."
             className="w-full pl-10 pr-4 py-3 bg-gray-100 rounded-xl text-sm text-gray-700 placeholder-gray-400 outline-none focus:ring-2 focus:ring-coral/30"
           />
         </div>
@@ -75,7 +75,7 @@ export default function SearchPage() {
         )}
 
         {!loading && query && results.length === 0 && (
-          <p className="text-center text-gray-400 py-8 text-sm">Nema rezultata za "{query}"</p>
+          <p className="text-center text-gray-400 py-8 text-sm">No results for "{query}"</p>
         )}
 
         <div className="grid grid-cols-2 gap-3 mt-2">

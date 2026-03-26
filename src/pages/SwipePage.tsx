@@ -54,7 +54,7 @@ export default function SwipePage() {
             !activeCategory ? 'bg-coral text-white' : 'bg-gray-100 text-gray-500'
           }`}
         >
-          Sve
+          All
         </button>
         {categories.map((cat) => (
           <button
@@ -78,9 +78,9 @@ export default function SwipePage() {
         <div className="flex-1">
           <EmptyState
             emoji="🍽️"
-            title="Nema više recepata!"
-            subtitle="Pogledali ste sve recepte. Učitajte nove ili resetirajte."
-            action={{ label: 'Učitaj nove', onClick: reset }}
+            title="No more recipes!"
+            subtitle="You've viewed all recipes. Load new ones or reset."
+            action={{ label: 'Load new', onClick: reset }}
           />
         </div>
       ) : (

@@ -13,7 +13,7 @@ export default defineConfig({
       manifest: {
         name: 'Tastry',
         short_name: 'Tastry',
-        description: 'Swipe na receptima koje voliš',
+        description: 'Swipe through recipes you love',
         theme_color: '#FF8C42',
         background_color: '#FFF8F0',
         display: 'standalone',

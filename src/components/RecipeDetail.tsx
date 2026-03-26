@@ -16,7 +16,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
       <p className="text-sm text-gray-400 mb-4">{recipe.area} · {recipe.category}</p>
 
       {/* Ingredients */}
-      <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Sastojci</h3>
+      <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Ingredients</h3>
       <ul className="space-y-1.5 mb-5">
         {recipe.ingredients.map((ing, i) => (
           <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
@@ -30,7 +30,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
       </ul>
 
       {/* Steps */}
-      <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Priprema</h3>
+      <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Preparation</h3>
       <ol className="space-y-3">
         {steps.map((step, i) => (
           <li key={i} className="flex gap-3 text-sm text-gray-600">

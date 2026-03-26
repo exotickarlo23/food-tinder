@@ -15,10 +15,10 @@ export function useFavorites() {
     getFromStorage<Recipe[]>(STORAGE_KEY, [])
   )
   const [collections, setCollections] = useState<Collection[]>(() =>
-    getFromStorage<Collection[]>(COLLECTIONS_KEY, [{ name: 'Favoriti', recipeIds: [] }])
+    getFromStorage<Collection[]>(COLLECTIONS_KEY, [{ name: 'Favorites', recipeIds: [] }])
   )
 
-  const addFavorite = useCallback((recipe: Recipe, collectionName = 'Favoriti') => {
+  const addFavorite = useCallback((recipe: Recipe, collectionName = 'Favorites') => {
     setFavorites((prev) => {
       if (prev.some((r) => r.id === recipe.id)) return prev
       const next = [...prev, recipe]

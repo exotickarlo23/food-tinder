@@ -89,7 +89,7 @@ export default function SwipeCard({ recipe, onSwipeLeft, onSwipeRight, isTop }: 
           className="absolute top-12 right-6 border-4 border-like text-like text-3xl font-black px-4 py-1 rounded-lg rotate-12 bg-black/30 backdrop-blur-sm"
           style={{ opacity: likeOpacity }}
         >
-          SPREMI
+          SAVE
         </motion.div>
 
         {/* SKIP stamp */}
@@ -103,14 +103,14 @@ export default function SwipeCard({ recipe, onSwipeLeft, onSwipeRight, isTop }: 
         {/* Recipe info at bottom */}
         <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
           <h2 className="text-2xl font-bold mb-1">{recipe.name}</h2>
-          <p className="text-sm text-white/70">{recipe.area} kuhinja</p>
+          <p className="text-sm text-white/70">{recipe.area} cuisine</p>
 
           {/* Scroll hint */}
           <button
             onClick={() => setShowDetail(true)}
             className="mt-3 flex items-center gap-1 text-xs text-white/60 hover:text-white/90 transition-colors"
           >
-            <span>Pogledaj recept</span>
+            <span>View recipe</span>
             <svg className="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
