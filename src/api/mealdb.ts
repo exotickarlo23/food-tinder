@@ -61,6 +61,21 @@ export async function fetchByCategory(category: string): Promise<Recipe[]> {
   return full.filter((r): r is Recipe => r !== null)
 }
 
+const SWEET_CATEGORIES = ['Dessert']
+
+export async function fetchByTaste(taste: 'sweet' | 'savory'): Promise<Recipe[]> {
+  const allCategories = await fetchCategories()
+  const filtered = taste === 'sweet'
+    ? allCategories.filter((c) => SWEET_CATEGORIES.includes(c))
+    : allCategories.filter((c) => !SWEET_CATEGORIES.includes(c))
+
+  // Pick up to 3 random categories to fetch from
+  const shuffled = filtered.sort(() => Math.random() - 0.5).slice(0, 3)
+  const results = await Promise.all(shuffled.map((cat) => fetchByCategory(cat)))
+  const all = results.flat().sort(() => Math.random() - 0.5)
+  return all.slice(0, 10)
+}
+
 export async function fetchMealById(id: string): Promise<Recipe | null> {
   const res = await fetch(`${BASE}/lookup.php?i=${id}`)
   const data = await res.json()

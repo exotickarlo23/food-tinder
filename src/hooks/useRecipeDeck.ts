@@ -1,9 +1,11 @@
 import { useState, useCallback, useEffect } from 'react'
 import type { Recipe } from '../types/recipe'
-import { fetchRandomMeals, fetchByCategory } from '../api/mealdb'
+import { fetchRandomMeals, fetchByTaste } from '../api/mealdb'
 import { getFromStorage, setToStorage } from '../utils/storage'
 
 const SEEN_KEY = 'tastry-seen'
+
+export type TasteFilter = 'all' | 'sweet' | 'savory'
 
 export function useRecipeDeck() {
   const [recipes, setRecipes] = useState<Recipe[]>([])
@@ -11,14 +13,14 @@ export function useRecipeDeck() {
     () => new Set(getFromStorage<string[]>(SEEN_KEY, []))
   )
   const [loading, setLoading] = useState(true)
-  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [activeTaste, setActiveTaste] = useState<TasteFilter>('all')
 
-  const loadRecipes = useCallback(async (category: string | null) => {
+  const loadRecipes = useCallback(async (taste: TasteFilter) => {
     setLoading(true)
     try {
-      const meals = category
-        ? await fetchByCategory(category)
-        : await fetchRandomMeals(10)
+      const meals = taste === 'all'
+        ? await fetchRandomMeals(10)
+        : await fetchByTaste(taste)
       setRecipes(meals)
     } catch {
       // API error, keep empty
@@ -27,8 +29,8 @@ export function useRecipeDeck() {
   }, [])
 
   useEffect(() => {
-    loadRecipes(activeCategory)
-  }, [activeCategory, loadRecipes])
+    loadRecipes(activeTaste)
+  }, [activeTaste, loadRecipes])
 
   const remaining = recipes.filter((r) => !seenIds.has(r.id))
 
@@ -42,18 +44,18 @@ export function useRecipeDeck() {
   }, [])
 
   const loadMore = useCallback(() => {
-    loadRecipes(activeCategory)
-  }, [activeCategory, loadRecipes])
+    loadRecipes(activeTaste)
+  }, [activeTaste, loadRecipes])
 
   const reset = useCallback(() => {
     setSeenIds(new Set())
     setToStorage(SEEN_KEY, [])
-    loadRecipes(activeCategory)
-  }, [activeCategory, loadRecipes])
+    loadRecipes(activeTaste)
+  }, [activeTaste, loadRecipes])
 
-  const setCategory = useCallback((cat: string | null) => {
-    setActiveCategory(cat)
+  const setTaste = useCallback((taste: TasteFilter) => {
+    setActiveTaste(taste)
   }, [])
 
-  return { remaining, loading, dismiss, loadMore, reset, activeCategory, setCategory }
+  return { remaining, loading, dismiss, loadMore, reset, activeTaste, setTaste }
 }

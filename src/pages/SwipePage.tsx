@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
 import CardStack from '../components/CardStack'
 import ActionButtons from '../components/ActionButtons'
 import EmptyState from '../components/EmptyState'
 import { useRecipeDeck } from '../hooks/useRecipeDeck'
 import { useFavorites } from '../hooks/useFavorites'
-import { fetchCategories } from '../api/mealdb'
+import type { TasteFilter } from '../hooks/useRecipeDeck'
+
+const TASTE_OPTIONS: { value: TasteFilter; label: string }[] = [
+  { value: 'all', label: 'All' },
+  { value: 'sweet', label: 'Sweet' },
+  { value: 'savory', label: 'Savory' },
+]
 
 export default function SwipePage() {
-  const { remaining, loading, dismiss, loadMore, reset, activeCategory, setCategory } = useRecipeDeck()
+  const { remaining, loading, dismiss, loadMore, reset, activeTaste, setTaste } = useRecipeDeck()
   const { addFavorite } = useFavorites()
-  const [categories, setCategories] = useState<string[]>([])
-
-  useEffect(() => {
-    fetchCategories().then(setCategories)
-  }, [])
 
   const currentRecipe = remaining[0] ?? null
 
@@ -46,25 +46,17 @@ export default function SwipePage() {
         </h1>
       </header>
 
-      {/* Category pills */}
-      <div className="flex gap-2 px-4 pb-2 overflow-x-auto no-scrollbar">
-        <button
-          onClick={() => setCategory(null)}
-          className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
-            !activeCategory ? 'bg-coral text-white' : 'bg-gray-100 text-gray-500'
-          }`}
-        >
-          All
-        </button>
-        {categories.map((cat) => (
+      {/* Taste filter pills */}
+      <div className="flex gap-2 px-4 pb-2 justify-center">
+        {TASTE_OPTIONS.map((opt) => (
           <button
-            key={cat}
-            onClick={() => setCategory(cat === activeCategory ? null : cat)}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
-              cat === activeCategory ? 'bg-coral text-white' : 'bg-gray-100 text-gray-500'
+            key={opt.value}
+            onClick={() => setTaste(opt.value)}
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
+              activeTaste === opt.value ? 'bg-coral text-white' : 'bg-gray-100 text-gray-500'
             }`}
           >
-            {cat}
+            {opt.label}
           </button>
         ))}
       </div>
