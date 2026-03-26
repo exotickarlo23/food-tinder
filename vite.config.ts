@@ -11,8 +11,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'icons/icon-192x192.svg', 'icons/icon-512x512.svg'],
       manifest: {
-        name: 'Food Tinder',
-        short_name: 'FoodTinder',
+        name: 'Tastry',
+        short_name: 'Tastry',
         description: 'Swipe na receptima koje voliš',
         theme_color: '#FF8C42',
         background_color: '#FFF8F0',

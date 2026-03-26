@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom'
 
 export default function BottomNav() {
-  const base = 'flex-1 flex flex-col items-center justify-center gap-1 py-3 text-xs font-medium transition-colors'
+  const base = 'flex-1 flex flex-col items-center justify-center gap-1 py-3 text-xs font-semibold transition-colors'
   const active = 'text-brand-500'
   const inactive = 'text-gray-400'
 
   return (
-    <nav className="fixed bottom-0 inset-x-0 bg-white/80 backdrop-blur-lg border-t border-gray-200 safe-bottom z-50">
+    <nav className="fixed bottom-0 inset-x-0 bg-white/90 backdrop-blur-lg border-t border-brand-100 safe-bottom z-50">
       <div className="flex max-w-md mx-auto">
         <NavLink to="/" className={({ isActive }) => `${base} ${isActive ? active : inactive}`} end>
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

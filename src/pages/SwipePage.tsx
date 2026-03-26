@@ -38,11 +38,17 @@ export default function SwipePage() {
 
   return (
     <div className="flex flex-col h-full">
-      <header className="text-center pt-4 pb-2">
-        <h1 className="text-xl font-bold text-brand-600">
-          🔥 Food Tinder
+      {/* Header */}
+      <header className="text-center pt-5 pb-1">
+        <h1 className="text-2xl font-extrabold">
+          <span className="text-brand-500">Tast</span>
+          <span className="text-brand-700">ry</span>
         </h1>
+        <p className="text-sm font-semibold text-gray-400 uppercase tracking-widest mt-1">
+          Nađi recept
+        </p>
       </header>
+
       <CardStack
         cards={remaining}
         onSwipeLeft={handleSwipeLeft}
