@@ -11,7 +11,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
     .filter((s) => s.length > 0)
 
   return (
-    <div className="px-5 pb-6 -mt-4">
+    <div className="px-5 pb-20 -mt-4">
       <h2 className="text-xl font-bold text-gray-800 mb-1">{recipe.name}</h2>
       <p className="text-sm text-gray-400 mb-4">{recipe.area} · {recipe.category}</p>
 
@@ -37,7 +37,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
             <span className="w-6 h-6 rounded-full bg-coral/10 text-coral text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
               {i + 1}
             </span>
-            <p className="leading-relaxed">{step}</p>
+            <p className="leading-relaxed break-words">{step}</p>
           </li>
         ))}
       </ol>
