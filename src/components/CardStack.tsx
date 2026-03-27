@@ -12,7 +12,7 @@ export default function CardStack({ cards, onSwipeLeft, onSwipeRight }: CardStac
   const visible = cards.slice(0, 3)
 
   return (
-    <div className="relative flex-1 min-h-0 mx-4 mt-2 mb-2 overflow-hidden">
+    <div className="relative flex-1 min-h-0 mx-4 mt-2 mb-2 overflow-hidden rounded-2xl">
       <AnimatePresence>
         {visible.map((recipe, i) => (
           <SwipeCard

@@ -6,8 +6,8 @@ export default function BottomNav() {
   const inactive = 'text-gray-400'
 
   return (
-    <nav className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-lg border-t border-gray-100 safe-bottom z-50">
-      <div className="flex max-w-md mx-auto">
+    <nav className="bg-white/95 backdrop-blur-lg border-t border-gray-100 safe-bottom shrink-0">
+      <div className="flex">
         {/* Discover */}
         <NavLink to="/" className={({ isActive }) => `${base} ${isActive ? active : inactive}`} end>
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

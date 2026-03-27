@@ -8,7 +8,7 @@ interface ActionButtonsProps {
 
 export default function ActionButtons({ onNope, onLike, disabled }: ActionButtonsProps) {
   return (
-    <div className="flex justify-center gap-6 py-3 mb-2">
+    <div className="flex justify-center gap-6 py-2 shrink-0">
       {/* Skip */}
       <motion.button
         whileTap={{ scale: 0.85 }}
