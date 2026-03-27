@@ -15,12 +15,12 @@ export function useRecipeDeck() {
   const [loading, setLoading] = useState(true)
   const [activeTaste, setActiveTaste] = useState<TasteFilter>('all')
 
-  const loadRecipes = useCallback(async (taste: TasteFilter) => {
+  const loadRecipes = useCallback(async (taste: TasteFilter, seen: Set<string>) => {
     setLoading(true)
     try {
       const meals = taste === 'all'
-        ? await fetchRandomMeals(10)
-        : await fetchByTaste(taste)
+        ? await fetchRandomMeals(10, seen)
+        : await fetchByTaste(taste, seen)
       setRecipes(meals)
     } catch {
       // API error, keep empty
@@ -29,7 +29,7 @@ export function useRecipeDeck() {
   }, [])
 
   useEffect(() => {
-    loadRecipes(activeTaste)
+    loadRecipes(activeTaste, seenIds)
   }, [activeTaste, loadRecipes])
 
   const remaining = recipes.filter((r) => !seenIds.has(r.id))
@@ -44,13 +44,13 @@ export function useRecipeDeck() {
   }, [])
 
   const loadMore = useCallback(() => {
-    loadRecipes(activeTaste)
-  }, [activeTaste, loadRecipes])
+    loadRecipes(activeTaste, seenIds)
+  }, [activeTaste, loadRecipes, seenIds])
 
   const reset = useCallback(() => {
     setSeenIds(new Set())
     setToStorage(SEEN_KEY, [])
-    loadRecipes(activeTaste)
+    loadRecipes(activeTaste, new Set())
   }, [activeTaste, loadRecipes])
 
   const setTaste = useCallback((taste: TasteFilter) => {

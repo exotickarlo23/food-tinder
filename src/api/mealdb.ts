@@ -44,10 +44,27 @@ export async function fetchRandomMeal(): Promise<Recipe | null> {
   return parseMeal(data.meals[0])
 }
 
-export async function fetchRandomMeals(count: number): Promise<Recipe[]> {
-  const promises = Array.from({ length: count }, () => fetchRandomMeal())
-  const results = await Promise.all(promises)
-  return results.filter((r): r is Recipe => r !== null)
+export async function fetchRandomMeals(
+  count: number,
+  excludeIds: Set<string> = new Set()
+): Promise<Recipe[]> {
+  const unique = new Map<string, Recipe>()
+  const maxAttempts = count * 3
+
+  for (let attempt = 0; attempt < maxAttempts && unique.size < count; attempt++) {
+    const batchSize = Math.min(count - unique.size, 5)
+    const promises = Array.from({ length: batchSize }, () => fetchRandomMeal())
+    const results = await Promise.all(promises)
+
+    for (const meal of results) {
+      if (meal && !excludeIds.has(meal.id) && !unique.has(meal.id)) {
+        unique.set(meal.id, meal)
+        if (unique.size >= count) break
+      }
+    }
+  }
+
+  return [...unique.values()]
 }
 
 export async function fetchByCategory(category: string): Promise<Recipe[]> {
@@ -63,7 +80,10 @@ export async function fetchByCategory(category: string): Promise<Recipe[]> {
 
 const SWEET_CATEGORIES = ['Dessert']
 
-export async function fetchByTaste(taste: 'sweet' | 'savory'): Promise<Recipe[]> {
+export async function fetchByTaste(
+  taste: 'sweet' | 'savory',
+  excludeIds: Set<string> = new Set()
+): Promise<Recipe[]> {
   const allCategories = await fetchCategories()
   const filtered = taste === 'sweet'
     ? allCategories.filter((c) => SWEET_CATEGORIES.includes(c))
@@ -72,7 +92,9 @@ export async function fetchByTaste(taste: 'sweet' | 'savory'): Promise<Recipe[]>
   // Pick up to 3 random categories to fetch from
   const shuffled = filtered.sort(() => Math.random() - 0.5).slice(0, 3)
   const results = await Promise.all(shuffled.map((cat) => fetchByCategory(cat)))
-  const all = results.flat().sort(() => Math.random() - 0.5)
+  const all = results.flat()
+    .filter((r) => !excludeIds.has(r.id))
+    .sort(() => Math.random() - 0.5)
   return all.slice(0, 10)
 }
 
