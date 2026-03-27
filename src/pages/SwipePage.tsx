@@ -38,7 +38,7 @@ export default function SwipePage() {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full min-h-0 overflow-hidden">
       {/* Header */}
       <header className="text-center pt-4 pb-2 px-4">
         <h1 className="text-2xl font-extrabold tracking-tight">
@@ -52,7 +52,7 @@ export default function SwipePage() {
           <button
             key={opt.value}
             onClick={() => setTaste(opt.value)}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
+            className={`px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors ${
               activeTaste === opt.value ? 'bg-coral text-white' : 'bg-gray-100 text-gray-500'
             }`}
           >

@@ -28,7 +28,7 @@ export default function SearchPage() {
 
   if (selectedRecipe) {
     return (
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-full min-h-0">
         <div className="h-full overflow-y-auto">
           <div className="relative h-56">
             <img src={selectedRecipe.image} alt={selectedRecipe.name} className="w-full h-full object-cover" />
@@ -49,7 +49,7 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full min-h-0">
       <header className="pt-4 pb-2 px-4">
         <h1 className="text-2xl font-extrabold tracking-tight text-gray-800 mb-3">Search</h1>
         <div className="relative">
