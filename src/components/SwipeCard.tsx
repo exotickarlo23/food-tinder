@@ -13,10 +13,25 @@ interface SwipeCardProps {
 export default function SwipeCard({ recipe, onSwipeLeft, onSwipeRight, isTop }: SwipeCardProps) {
   const [showDetail, setShowDetail] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null)
   const x = useMotionValue(0)
   const rotate = useTransform(x, [-200, 200], [-12, 12])
   const likeOpacity = useTransform(x, [0, 100], [0, 1])
   const nopeOpacity = useTransform(x, [-100, 0], [1, 0])
+
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (!touchStartRef.current || !isTop || showDetail) return
+    const dx = e.changedTouches[0].clientX - touchStartRef.current.x
+    const dy = touchStartRef.current.y - e.changedTouches[0].clientY
+    touchStartRef.current = null
+    if (dy > 80 && Math.abs(dy) > Math.abs(dx)) {
+      setShowDetail(true)
+    }
+  }
 
   function handleDragEnd(_: unknown, info: { offset: { x: number }; velocity: { x: number } }) {
     if (showDetail) return
@@ -62,6 +77,8 @@ export default function SwipeCard({ recipe, onSwipeLeft, onSwipeRight, isTop }: 
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.9}
       onDragEnd={handleDragEnd}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       initial={{ scale: isTop ? 1 : 0.95, y: isTop ? 0 : 8 }}
       animate={{ scale: isTop ? 1 : 0.95, y: isTop ? 0 : 8 }}
       exit={{

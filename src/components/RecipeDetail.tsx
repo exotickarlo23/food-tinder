@@ -4,14 +4,25 @@ interface RecipeDetailProps {
   recipe: Recipe
 }
 
-export default function RecipeDetail({ recipe }: RecipeDetailProps) {
-  const steps = recipe.instructions
+function parseSteps(instructions: string): string[] {
+  const lines = instructions
     .split(/\r?\n/)
     .map((s) => s.trim())
     .filter((s) => s.length > 0)
 
+  return lines
+    .filter((s) => !/^step\s*\d+\s*[:.)\-]?\s*$/i.test(s))
+    .map((s) => s.replace(/^step\s*\d+\s*[:.)\-]\s*/i, ''))
+    .map((s) => s.replace(/^\d+\s*[:.)\-]\s*/, ''))
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0)
+}
+
+export default function RecipeDetail({ recipe }: RecipeDetailProps) {
+  const steps = parseSteps(recipe.instructions)
+
   return (
-    <div className="px-5 pb-6 -mt-4">
+    <div className="px-6 pb-6 -mt-4">
       <h2 className="text-xl font-bold text-gray-800 mb-1">{recipe.name}</h2>
       <p className="text-sm text-gray-400 mb-4">{recipe.area} · {recipe.category}</p>
 
