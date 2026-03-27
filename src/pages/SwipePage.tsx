@@ -38,7 +38,7 @@ export default function SwipePage() {
   }
 
   return (
-    <div className="flex flex-col h-full min-h-0 overflow-hidden">
+    <div className="flex flex-col flex-1 min-h-0">
       {/* Header */}
       <header className="text-center pt-4 pb-2 px-4">
         <h1 className="text-2xl font-extrabold tracking-tight">
