@@ -16,16 +16,16 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
-  height: 100dvh;
-  height: 100%; /* fallback */
-  overflow: hidden;
+html {
+  height: 100%;
 }
 
-@supports (height: 100dvh) {
-  html, body, #root {
-    height: 100dvh;
-  }
+body, #root {
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+  width: 100%;
 }
 
 body {
