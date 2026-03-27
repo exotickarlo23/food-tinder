@@ -1,15 +1,17 @@
 import { useRef } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import SwipeCard from './SwipeCard'
+import CelebrationOverlay from './CelebrationOverlay'
 import type { Recipe } from '../types/recipe'
 
 interface CardStackProps {
   cards: Recipe[]
   onSwipeLeft: (id: string) => void
   onSwipeRight: (id: string) => void
+  celebrationTrigger?: number
 }
 
-export default function CardStack({ cards, onSwipeLeft, onSwipeRight }: CardStackProps) {
+export default function CardStack({ cards, onSwipeLeft, onSwipeRight, celebrationTrigger = 0 }: CardStackProps) {
   const visible = cards.slice(0, 3)
   const exitDirection = useRef<'left' | 'right'>('left')
 
@@ -37,6 +39,7 @@ export default function CardStack({ cards, onSwipeLeft, onSwipeRight }: CardStac
           />
         )).reverse()}
       </AnimatePresence>
+      <CelebrationOverlay trigger={celebrationTrigger} />
     </div>
   )
 }

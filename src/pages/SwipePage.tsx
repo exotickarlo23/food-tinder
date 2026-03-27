@@ -2,7 +2,6 @@ import { useState } from 'react'
 import CardStack from '../components/CardStack'
 import ActionButtons from '../components/ActionButtons'
 import EmptyState from '../components/EmptyState'
-import CelebrationOverlay from '../components/CelebrationOverlay'
 import { useRecipeDeck } from '../hooks/useRecipeDeck'
 import { useFavorites } from '../hooks/useFavorites'
 import type { TasteFilter } from '../hooks/useRecipeDeck'
@@ -81,14 +80,12 @@ export default function SwipePage() {
         </div>
       ) : (
         <>
-          <div className="relative flex-1">
-            <CardStack
-              cards={remaining}
-              onSwipeLeft={handleSwipeLeft}
-              onSwipeRight={handleSwipeRight}
-            />
-            <CelebrationOverlay trigger={celebrationTrigger} />
-          </div>
+          <CardStack
+            cards={remaining}
+            onSwipeLeft={handleSwipeLeft}
+            onSwipeRight={handleSwipeRight}
+            celebrationTrigger={celebrationTrigger}
+          />
           <ActionButtons
             onNope={handleNope}
             onLike={handleLike}
