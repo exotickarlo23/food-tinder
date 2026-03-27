@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import CardStack from '../components/CardStack'
 import ActionButtons from '../components/ActionButtons'
 import EmptyState from '../components/EmptyState'
+import CelebrationOverlay from '../components/CelebrationOverlay'
 import { useRecipeDeck } from '../hooks/useRecipeDeck'
 import { useFavorites } from '../hooks/useFavorites'
 import type { TasteFilter } from '../hooks/useRecipeDeck'
@@ -14,6 +16,7 @@ const TASTE_OPTIONS: { value: TasteFilter; label: string }[] = [
 export default function SwipePage() {
   const { remaining, loading, dismiss, loadMore, reset, activeTaste, setTaste } = useRecipeDeck()
   const { addFavorite } = useFavorites()
+  const [celebrationTrigger, setCelebrationTrigger] = useState(0)
 
   const currentRecipe = remaining[0] ?? null
 
@@ -26,6 +29,7 @@ export default function SwipePage() {
     const recipe = remaining.find((r) => r.id === id)
     if (recipe) addFavorite(recipe)
     dismiss(id)
+    setCelebrationTrigger((prev) => prev + 1)
     if (remaining.length <= 2) loadMore()
   }
 
@@ -77,11 +81,14 @@ export default function SwipePage() {
         </div>
       ) : (
         <>
-          <CardStack
-            cards={remaining}
-            onSwipeLeft={handleSwipeLeft}
-            onSwipeRight={handleSwipeRight}
-          />
+          <div className="relative flex-1">
+            <CardStack
+              cards={remaining}
+              onSwipeLeft={handleSwipeLeft}
+              onSwipeRight={handleSwipeRight}
+            />
+            <CelebrationOverlay trigger={celebrationTrigger} />
+          </div>
           <ActionButtons
             onNope={handleNope}
             onLike={handleLike}

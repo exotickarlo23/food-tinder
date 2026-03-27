@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import SwipeCard from './SwipeCard'
 import type { Recipe } from '../types/recipe'
@@ -10,6 +11,17 @@ interface CardStackProps {
 
 export default function CardStack({ cards, onSwipeLeft, onSwipeRight }: CardStackProps) {
   const visible = cards.slice(0, 3)
+  const exitDirection = useRef<'left' | 'right'>('left')
+
+  const handleSwipeLeft = (id: string) => {
+    exitDirection.current = 'left'
+    onSwipeLeft(id)
+  }
+
+  const handleSwipeRight = (id: string) => {
+    exitDirection.current = 'right'
+    onSwipeRight(id)
+  }
 
   return (
     <div className="relative flex-1 mx-4 my-4">
@@ -18,9 +30,10 @@ export default function CardStack({ cards, onSwipeLeft, onSwipeRight }: CardStac
           <SwipeCard
             key={recipe.id}
             recipe={recipe}
-            onSwipeLeft={onSwipeLeft}
-            onSwipeRight={onSwipeRight}
+            onSwipeLeft={handleSwipeLeft}
+            onSwipeRight={handleSwipeRight}
             isTop={i === 0}
+            exitDirection={exitDirection.current}
           />
         )).reverse()}
       </AnimatePresence>

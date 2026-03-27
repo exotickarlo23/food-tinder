@@ -8,11 +8,13 @@ interface SwipeCardProps {
   onSwipeLeft: (id: string) => void
   onSwipeRight: (id: string) => void
   isTop: boolean
+  exitDirection?: 'left' | 'right'
 }
 
-export default function SwipeCard({ recipe, onSwipeLeft, onSwipeRight, isTop }: SwipeCardProps) {
+export default function SwipeCard({ recipe, onSwipeLeft, onSwipeRight, isTop, exitDirection }: SwipeCardProps) {
   const [showDetail, setShowDetail] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const swipeDir = useRef<'left' | 'right' | null>(null)
   const x = useMotionValue(0)
   const rotate = useTransform(x, [-200, 200], [-12, 12])
   const likeOpacity = useTransform(x, [0, 100], [0, 1])
@@ -24,8 +26,10 @@ export default function SwipeCard({ recipe, onSwipeLeft, onSwipeRight, isTop }: 
     const velocityThreshold = 400
 
     if (info.offset.x > swipeThreshold || info.velocity.x > velocityThreshold) {
+      swipeDir.current = 'right'
       onSwipeRight(recipe.id)
     } else if (info.offset.x < -swipeThreshold || info.velocity.x < -velocityThreshold) {
+      swipeDir.current = 'left'
       onSwipeLeft(recipe.id)
     }
   }
@@ -64,11 +68,17 @@ export default function SwipeCard({ recipe, onSwipeLeft, onSwipeRight, isTop }: 
       onDragEnd={handleDragEnd}
       initial={{ scale: isTop ? 1 : 0.95, y: isTop ? 0 : 8 }}
       animate={{ scale: isTop ? 1 : 0.95, y: isTop ? 0 : 8 }}
-      exit={{
-        x: x.get() > 0 ? 400 : -400,
-        opacity: 0,
-        rotate: x.get() > 0 ? 20 : -20,
-        transition: { duration: 0.3 },
+      exit="exit"
+      variants={{
+        exit: () => {
+          const dir = swipeDir.current ?? exitDirection ?? 'left'
+          return {
+            x: dir === 'right' ? 400 : -400,
+            opacity: 0,
+            rotate: dir === 'right' ? 20 : -20,
+            transition: { duration: 0.3 },
+          }
+        },
       }}
       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
     >
